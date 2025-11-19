@@ -4,23 +4,23 @@ import { GlowCard } from '../components/ui/GlowCard';
 
 export const Blog: React.FC = () => {
   return (
-    <div className="max-w-5xl mx-auto px-6 pt-32 pb-20">
-      <div className="mb-16">
-        <h1 className="text-5xl font-bold mb-6 text-primary">Engineering Log</h1>
-        <p className="text-xl text-secondary max-w-2xl">
+    <div className="max-w-5xl mx-auto px-4 sm:px-6 pt-28 sm:pt-32 pb-16 sm:pb-20">
+      <div className="mb-10 sm:mb-16">
+        <h1 className="text-4xl sm:text-5xl font-bold mb-4 sm:mb-6 text-primary">Engineering Log</h1>
+        <p className="text-lg sm:text-xl text-secondary max-w-2xl">
             Thoughts on software architecture, performance optimization, and the future of web development.
         </p>
       </div>
 
-      <div className="grid gap-6">
+      <div className="grid gap-5 sm:gap-6 min-w-0">
         {BLOG_POSTS.length > 0 ? (
           BLOG_POSTS.map((post) => (
-            <article key={post.id} className="group cursor-pointer">
+            <article key={post.id} className="group cursor-pointer min-w-0">
                 <GlowCard 
                     className="bg-surface border border-border p-8 hover:bg-background/50 hover:border-accent/30 transition-all duration-300"
                     glowColor="rgba(168, 85, 247, 0.15)" // Purple
                 >
-                    <div className="flex items-center gap-4 text-xs font-mono text-secondary mb-4">
+                    <div className="flex flex-wrap items-center gap-2 text-[11px] sm:text-xs font-mono text-secondary mb-4">
                         <span className="text-accent">{post.category}</span>
                         <span>•</span>
                         <span>{post.date}</span>
@@ -38,7 +38,7 @@ export const Blog: React.FC = () => {
           ))
         ) : (
           <GlowCard 
-            className="bg-surface border border-border p-16 text-center"
+            className="bg-surface border border-border p-16 text-center min-w-0"
             glowColor="rgba(168, 85, 247, 0.15)"
           >
             <span className="text-xs font-bold px-2 py-1 bg-accent/10 text-accent rounded mb-4 inline-block">BLOG</span>

@@ -28,7 +28,7 @@ export const GlowCard: React.FC<GlowCardProps> = ({
     <div 
       ref={cardRef}
       onMouseMove={handleMouseMove}
-      className={`group relative overflow-hidden ${className}`}
+      className={`group relative overflow-hidden w-full ${className}`}
       {...props}
     >
       {/* Mouse Follower Aura */}

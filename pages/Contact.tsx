@@ -3,12 +3,12 @@ import { Mail, MapPin, MessageSquare } from 'lucide-react';
 import { AnimatedButton } from '../components/ui/AnimatedButton';
 
 export const Contact: React.FC = () => {
-  return (
-    <div className="max-w-7xl mx-auto px-6 pt-32 pb-20">
-       <div className="grid lg:grid-cols-2 gap-16">
+    return (
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-28 sm:pt-32 pb-16 sm:pb-20">
+             <div className="grid lg:grid-cols-2 gap-12 lg:gap-16">
             <div>
-                <h1 className="text-5xl font-bold mb-6 text-primary">Let's Build Together</h1>
-                <p className="text-xl text-secondary mb-12 leading-relaxed">
+                                <h1 className="text-4xl sm:text-5xl font-bold mb-4 sm:mb-6 text-primary">Let's Build Together</h1>
+                                <p className="text-lg sm:text-xl text-secondary mb-10 leading-relaxed">
                     I'm currently available for new projects and collaboration.<br></br>
                     I'd love to hear about it.
                 </p>
@@ -35,13 +35,13 @@ export const Contact: React.FC = () => {
                 </div>
             </div>
 
-            <div className="bg-surface border border-border p-8 md:p-12">
-                <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
+            <div className="bg-surface border border-border p-6 sm:p-8 md:p-10 lg:p-12 rounded-lg">
+                <form className="space-y-5" onSubmit={(e) => e.preventDefault()}>
                     <div>
                         <label className="block text-sm font-bold mb-2 text-secondary">Name</label>
                         <input 
                             type="text" 
-                            className="w-full bg-background border border-border p-4 focus:border-accent focus:outline-none text-primary transition-colors"
+                            className="w-full bg-background border border-border p-3 sm:p-4 focus:border-accent focus:outline-none text-primary transition-colors rounded"
                             placeholder="Jane Doe"
                         />
                     </div>
@@ -49,7 +49,7 @@ export const Contact: React.FC = () => {
                         <label className="block text-sm font-bold mb-2 text-secondary">Email</label>
                         <input 
                             type="email" 
-                            className="w-full bg-background border border-border p-4 focus:border-accent focus:outline-none text-primary transition-colors"
+                            className="w-full bg-background border border-border p-3 sm:p-4 focus:border-accent focus:outline-none text-primary transition-colors rounded"
                             placeholder="jane@example.com"
                         />
                     </div>
@@ -57,12 +57,12 @@ export const Contact: React.FC = () => {
                         <label className="block text-sm font-bold mb-2 text-secondary">Message</label>
                         <textarea 
                             rows={5}
-                            className="w-full bg-background border border-border p-4 focus:border-accent focus:outline-none text-primary transition-colors resize-none"
+                            className="w-full bg-background border border-border p-3 sm:p-4 focus:border-accent focus:outline-none text-primary transition-colors rounded resize-none"
                             placeholder="Tell me about your project..."
                         />
                     </div>
                     <AnimatedButton 
-                        className="w-full md:w-auto px-8 py-3"
+                        className="w-full md:w-auto px-6 sm:px-8 py-3"
                         icon={MessageSquare}
                         iconPosition="left"
                         type="submit"

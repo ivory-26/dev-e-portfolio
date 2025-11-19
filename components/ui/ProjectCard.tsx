@@ -23,7 +23,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
     <div 
       ref={cardRef}
       onMouseMove={handleMouseMove}
-      className="group relative bg-surface border border-border p-8 hover:border-accent/50 transition-all duration-300 h-full flex flex-col justify-between overflow-hidden rounded-sm"
+      className="group relative bg-surface border border-border p-6 sm:p-8 hover:border-accent/50 transition-all duration-300 h-full flex flex-col justify-between overflow-hidden rounded-sm"
     >
       {/* Mouse Follower Aura (Pink) */}
       <div 

@@ -19,13 +19,13 @@ export const Home: React.FC<HomeProps> = ({ setPage }) => {
   const latestBlog = BLOG_POSTS.length > 0 ? BLOG_POSTS[0] : null;
 
   return (
-    <div className="flex flex-col gap-24 pt-32">
+    <div className="flex flex-col gap-16 md:gap-24 pt-28 sm:pt-32">
       {/* Hero / About Section */}
-      <section className="relative max-w-7xl mx-auto px-6">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <section className="relative max-w-7xl mx-auto px-4 sm:px-6">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
                 {/* Profile & Status Section */}
-                    <div className="flex items-center gap-4 mb-10">
+                    <div className="flex items-center gap-4 mb-8 flex-wrap sm:flex-nowrap">
                     <div className="relative group">
                          {/* Rotating Pink Glow Ring */}
                         <div className="absolute -inset-[3px] rounded-full bg-[conic-gradient(from_0deg,transparent_0_300deg,#ff0080_360deg)] animate-spin-slow opacity-100 blur-[2px]"></div>
@@ -53,16 +53,16 @@ export const Home: React.FC<HomeProps> = ({ setPage }) => {
                     </div>
                 </div>
 
-                <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight leading-[1.1] mb-8 text-primary">
+                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight mb-6 text-primary">
                     Your fastest path to <br/>
                     <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-zinc-400 to-zinc-500">production.</span>
                 </h1>
-                <p className="text-xl text-secondary mb-10 max-w-lg leading-relaxed">
+                <p className="text-lg sm:text-xl text-secondary mb-8 max-w-2xl leading-relaxed">
                     A teen learning to code in this rat race. Currently learning React, GenAI Agents and NodeJS.
                     <br/><br/>
                     <span className="text-sm italic">Fun fact: The first computer bug was actually a real moth which got stuck in a Harvard computer.</span>
                 </p>
-                <div className="flex flex-wrap gap-4">
+                <div className="flex flex-wrap gap-3">
                     <AnimatedButton 
                         onClick={() => setPage(PageView.PROJECTS)}
                         variant="primary"
@@ -83,15 +83,15 @@ export const Home: React.FC<HomeProps> = ({ setPage }) => {
             </div>
 
             {/* Right Side - Interactive Voice Match Widget */}
-            <div className="relative h-[400px] hidden lg:block">
+            <div className="relative h-[320px] sm:h-[360px] lg:h-[400px]">
                 <VoiceMatchWidget className="h-full w-full shadow-2xl" />
             </div>
         </div>
       </section>
 
       {/* Featured Projects Section */}
-      <section className="max-w-7xl mx-auto px-6 w-full">
-        <div className="flex items-end justify-between mb-12">
+            <section className="max-w-7xl mx-auto px-4 sm:px-6 w-full">
+                <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-8">
             <div>
                 <h2 className="text-3xl font-bold mb-2 text-primary">Featured Projects</h2>
                 <p className="text-secondary">Selected works that define my engineering approach.</p>
@@ -112,15 +112,15 @@ export const Home: React.FC<HomeProps> = ({ setPage }) => {
       </section>
 
       {/* Activity & Insights Section (Blog + Widgets) */}
-      <section className="max-w-7xl mx-auto px-6 w-full">
+    <section className="max-w-7xl mx-auto px-4 sm:px-6 w-full">
         <h2 className="text-3xl font-bold mb-2 text-primary">Activity & Insights</h2>
         <p className="text-secondary mb-12">What I'm writing, coding, and listening to.</p>
 
-        <div className="grid lg:grid-cols-3 gap-6">
+        <div className="grid gap-6 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
             {/* Latest Blog Card - Spans 2 cols on large */}
             <GlowCard 
                 onClick={() => latestBlog && setPage(PageView.BLOG)}
-                className={`lg:col-span-2 bg-surface border border-border p-8 hover:border-accent/50 transition-colors flex flex-col justify-between min-h-[300px] ${latestBlog ? 'cursor-pointer' : 'cursor-default'}`}
+                className={`min-w-0 lg:col-span-2 bg-surface border border-border p-8 hover:border-accent/50 transition-colors flex flex-col justify-between min-h-[300px] ${latestBlog ? 'cursor-pointer' : 'cursor-default'}`}
                 glowColor="rgba(168, 85, 247, 0.15)" // Purple
             >
                 <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-opacity">
@@ -161,7 +161,7 @@ export const Home: React.FC<HomeProps> = ({ setPage }) => {
             </GlowCard>
 
             {/* Widgets Column */}
-            <div className="flex flex-col gap-6">
+            <div className="flex flex-col gap-6 min-w-0">
                 {/* Github Widget */}
                 <div className="flex-1">
                     <GithubWidget />
@@ -176,11 +176,11 @@ export const Home: React.FC<HomeProps> = ({ setPage }) => {
       </section>
 
       {/* CTA / Contact Snippet */}
-      <section className="max-w-7xl mx-auto px-6 w-full mb-20">
-        <div className="bg-surface border border-border p-12 md:p-24 text-center relative overflow-hidden">
+            <section className="max-w-7xl mx-auto px-4 sm:px-6 w-full mb-16">
+                <div className="bg-surface border border-border p-8 md:p-24 text-center relative overflow-hidden rounded-lg">
             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-accent to-transparent opacity-50"></div>
-            <h2 className="text-4xl md:text-5xl font-bold mb-8 text-primary">Ready to scale?</h2>
-            <p className="text-xl text-secondary mb-10 max-w-2xl mx-auto">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6 text-primary">Ready to scale?</h2>
+            <p className="text-lg sm:text-xl text-secondary mb-8 max-w-2xl mx-auto">
                 Let's discuss how we can engineer your next big idea into a reality with performance and reliability at its core.
             </p>
             <div className="flex justify-center">

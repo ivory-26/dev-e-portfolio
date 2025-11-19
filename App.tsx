@@ -13,6 +13,7 @@ import { PageView } from './types';
 const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<PageView>(PageView.HOME);
   const [theme, setTheme] = useState<'light' | 'dark'>('dark');
+  const [mobileNavOpen, setMobileNavOpen] = useState(false);
 
   // Initialize theme from localStorage or system preference could be added here
   // For now, default to dark as per request, but allow toggle.
@@ -98,9 +99,11 @@ const App: React.FC = () => {
           setPage={setCurrentPage} 
           currentTheme={theme}
           toggleTheme={toggleTheme}
+          mobileNavOpen={mobileNavOpen}
+          setMobileNavOpen={setMobileNavOpen}
         />
         
-        <main className="flex-grow">
+        <main className={`flex-grow transition-all duration-300 ${mobileNavOpen ? 'md:mt-0 mt-[60px]' : ''}`}>
           {renderPage()}
         </main>
 

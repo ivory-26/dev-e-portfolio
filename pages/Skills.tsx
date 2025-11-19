@@ -3,17 +3,17 @@ import { SKILL_CATEGORIES } from '../constants';
 import { GlowCard } from '../components/ui/GlowCard';
 
 export const Skills: React.FC = () => {
-  return (
-    <div className="max-w-7xl mx-auto px-6 pt-32 pb-20">
-      <div className="mb-16">
-        <h1 className="text-5xl font-bold mb-6 text-primary">Technical Arsenal</h1>
-        <p className="text-xl text-secondary max-w-2xl">
-            My stack is built on modern, type-safe, and scalable technologies. 
-            I prioritize tools that offer excellent developer experience and production reliability.
-        </p>
-      </div>
+    return (
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-28 sm:pt-32 pb-16 sm:pb-20">
+            <div className="mb-10 sm:mb-16">
+                <h1 className="text-4xl sm:text-5xl font-bold mb-4 sm:mb-6 text-primary">Technical Arsenal</h1>
+                <p className="text-lg sm:text-xl text-secondary max-w-3xl">
+                        My stack is built on modern, type-safe, and scalable technologies. 
+                        I prioritize tools that offer excellent developer experience and production reliability.
+                </p>
+            </div>
 
-      <div className="grid md:grid-cols-2 gap-8">
+            <div className="grid gap-6 sm:gap-8 md:grid-cols-2">
         {SKILL_CATEGORIES.map((category) => {
             const Icon = category.icon;
             return (
@@ -22,14 +22,14 @@ export const Skills: React.FC = () => {
                     className="bg-surface border border-border p-8 rounded-lg"
                     glowColor="rgba(56, 189, 248, 0.15)" // Sky Blue
                 >
-                    <div className="flex items-center gap-4 mb-8">
+                    <div className="flex items-center gap-4 mb-6">
                         <div className="p-3 bg-background/50 rounded border border-border">
                             <Icon className="w-6 h-6 text-accent" />
                         </div>
                         <h3 className="text-2xl font-bold text-primary">{category.name}</h3>
                     </div>
                     
-                    <div className="grid grid-cols-3 sm:grid-cols-4 gap-4">
+                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4">
                         {category.skills.map((skill) => (
                             <div 
                                 key={skill.name}
@@ -56,7 +56,7 @@ export const Skills: React.FC = () => {
                                     />
                                 </div>
                                 
-                                <span className="text-xs sm:text-sm font-medium text-secondary group-hover:text-primary transition-colors duration-300 text-center">
+                                <span className="text-[11px] sm:text-sm font-medium text-secondary group-hover:text-primary transition-colors duration-300 text-center">
                                     {skill.name}
                                 </span>
                             </div>

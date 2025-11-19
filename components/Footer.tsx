@@ -3,12 +3,12 @@ import { Github, Twitter, Instagram, Gamepad2, BarChart3 } from 'lucide-react';
 
 export const Footer: React.FC = () => {
   return (
-    <footer className="bg-background border-t border-border py-12 mt-20 transition-colors duration-300">
-      <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
-        <div className="text-secondary text-sm">
+    <footer className="bg-background border-t border-border py-10 sm:py-12 mt-16 sm:mt-20 transition-colors duration-300">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col md:flex-row justify-between items-center gap-4 sm:gap-6">
+        <div className="text-secondary text-sm text-center md:text-left">
           © 2025 Sahil Karpe. All rights reserved.
         </div>
-        <div className="flex items-center gap-6">
+        <div className="flex items-center gap-4 sm:gap-6 text-secondary">
           <a href="https://github.com/ivory-26" target="_blank" rel="noopener noreferrer" className="text-secondary hover:text-primary transition-colors">
             <Github size={20} />
           </a>
