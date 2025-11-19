@@ -14,6 +14,7 @@ export const useGeminiLive = () => {
   const sourceRef = useRef<MediaStreamAudioSourceNode | null>(null);
   const analyserRef = useRef<AnalyserNode | null>(null);
   const sessionRef = useRef<any>(null);
+  const isConnectedRef = useRef<boolean>(false);
 
   const encodeAudioData = (bytes: Uint8Array) => {
     let binary = '';
@@ -32,6 +33,21 @@ export const useGeminiLive = () => {
 
   const stop = useCallback(() => {
     setIsLive(false);
+    isConnectedRef.current = false;
+
+    // Close session first
+    if (sessionRef.current) {
+      sessionRef.current.then((session: any) => {
+        if (session && typeof session.close === 'function') {
+          session.close().catch(() => {
+            // Ignore errors on close
+          });
+        }
+      }).catch(() => {
+        // Ignore errors
+      });
+      sessionRef.current = null;
+    }
 
     // Stop tracks
     if (streamRef.current) {
@@ -99,6 +115,7 @@ export const useGeminiLive = () => {
         },
         callbacks: {
           onopen: () => {
+            isConnectedRef.current = true;
             setIsLive(true);
             // Initialize Audio Context pipeline once connection is open
             try {
@@ -118,6 +135,11 @@ export const useGeminiLive = () => {
                 const processor = audioCtx.createScriptProcessor(2048, 1, 1);
     
                 processor.onaudioprocess = (e) => {
+                  // Check if still connected before sending
+                  if (!isConnectedRef.current || !sessionRef.current) {
+                    return;
+                  }
+
                   const inputData = e.inputBuffer.getChannelData(0);
                   const l = inputData.length;
                   const int16 = new Int16Array(l);
@@ -129,12 +151,19 @@ export const useGeminiLive = () => {
                   const base64Data = encodeAudioData(new Uint8Array(int16.buffer));
     
                   sessionPromise.then((session) => {
-                    session.sendRealtimeInput({
-                      media: {
-                        mimeType: 'audio/pcm;rate=16000',
-                        data: base64Data,
-                      },
-                    });
+                    // Double check connection before sending
+                    if (isConnectedRef.current && session) {
+                      try {
+                        session.sendRealtimeInput({
+                          media: {
+                            mimeType: 'audio/pcm;rate=16000',
+                            data: base64Data,
+                          },
+                        });
+                      } catch (err) {
+                        // Silently ignore send errors when connection is closing
+                      }
+                    }
                   }).catch(() => {
                       // Silent catch for session end
                   });
@@ -164,10 +193,12 @@ export const useGeminiLive = () => {
             }
           },
           onclose: () => {
+            isConnectedRef.current = false;
             setIsLive(false);
           },
           onerror: (err) => {
             console.error("Gemini Live Error:", err);
+            isConnectedRef.current = false;
             if (isLive) {
                setError("Connection interrupted");
                stop();
