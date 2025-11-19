@@ -35,7 +35,19 @@ Copy `.env.example` to `.env.local` (if the example file is missing, create `.en
 
 ```
 VITE_GEMINI_API_KEY=your-google-ai-studio-key
+# Optional: raise GitHub API rate limit for activity widget
+GITHUB_TOKEN=ghp_your_token_here
+
+# Server-side (do NOT prefix with VITE_) Spotify credentials for now playing widget
+SPOTIFY_CLIENT_ID=your_spotify_app_client_id
+SPOTIFY_CLIENT_SECRET=your_spotify_app_client_secret
+SPOTIFY_REFRESH_TOKEN=your_generated_refresh_token
 ```
+
+Notes:
+- Add the Spotify and GitHub variables in your hosting provider dashboard (e.g. Vercel). Only `VITE_GEMINI_API_KEY` belongs in the client `.env.local`.
+- The Spotify widget will show "Credentials not set" until these three variables are present server-side.
+- Generate the refresh token once via the standard authorization code flow; reuse it here for silent renewal.
 
 ### Run Locally
 

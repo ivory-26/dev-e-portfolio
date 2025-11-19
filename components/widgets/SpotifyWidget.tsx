@@ -10,6 +10,7 @@ interface NowPlayingResponse {
   progressMs?: number;
   durationMs?: number;
   url?: string;
+  error?: string; // present when credentials missing or API fails gracefully
 }
 
 const POLL_INTERVAL = 35000;
@@ -63,6 +64,22 @@ export const SpotifyWidget: React.FC = () => {
     return (
       <div className="bg-surface border border-border p-6 rounded-lg flex items-center justify-center w-full h-full">
         <div className="text-sm text-secondary animate-pulse">Connecting to Spotify…</div>
+      </div>
+    );
+  }
+
+  // Credentials not configured case
+  if (nowPlaying?.error === 'Spotify credentials not configured') {
+    return (
+      <div className="bg-surface border border-border p-6 rounded-lg flex items-center gap-4 w-full h-full">
+        <div className="relative w-16 h-16 bg-gradient-to-br from-gray-800 to-black rounded-md flex-shrink-0 flex items-center justify-center">
+          <Music className="text-gray-600" size={24} />
+        </div>
+        <div className="flex-1">
+          <div className="text-xs font-bold text-[#1DB954] uppercase tracking-wider mb-1">Spotify</div>
+          <div className="text-primary font-semibold">Credentials not set</div>
+          <div className="text-sm text-secondary">Add SPOTIFY_CLIENT_ID, SECRET & REFRESH_TOKEN.</div>
+        </div>
       </div>
     );
   }
