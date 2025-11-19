@@ -88,13 +88,13 @@ export const VoiceMatchWidget: React.FC<VoiceMatchWidgetProps> = ({ className = 
 
   return (
     <GlowCard 
-      className={`bg-surface border border-border p-1 flex flex-col h-full w-full relative overflow-hidden ${className}`}
+      className={`bg-surface border border-border p-1 flex flex-col h-full w-full relative ${className}`}
       glowColor="rgba(255, 255, 255, 0.15)"
     >
-      <div className="h-full w-full bg-white/90 dark:bg-black/80 backdrop-blur-sm p-6 flex flex-col relative z-10 rounded-sm transition-colors duration-300">
+      <div className="h-full w-full bg-white/90 dark:bg-black/80 backdrop-blur-sm p-4 sm:p-6 flex flex-col relative z-10 rounded-sm transition-colors duration-300 overflow-hidden">
         
         {/* Header */}
-        <div className="flex justify-between items-start mb-6 border-b border-border pb-4">
+        <div className="flex justify-between items-start mb-4 sm:mb-6 border-b border-border pb-3 sm:pb-4">
             <div className="flex items-center gap-3">
                 <div className={`p-2 rounded-md border transition-colors ${
                     isLive 
@@ -119,7 +119,7 @@ export const VoiceMatchWidget: React.FC<VoiceMatchWidgetProps> = ({ className = 
         </div>
 
         {/* Main Display Area */}
-        <div className="flex-1 flex flex-col relative overflow-hidden min-h-[160px]">
+        <div className="flex-1 flex flex-col relative overflow-hidden min-h-[120px] sm:min-h-[140px]">
              
              {!isLive && transcription.length === 0 && (
                 <div className="absolute inset-0 flex flex-col items-center justify-center text-center z-10">
@@ -204,7 +204,7 @@ export const VoiceMatchWidget: React.FC<VoiceMatchWidgetProps> = ({ className = 
              )}
         </div>
 
-        <div className="mt-6 pt-4 border-t border-border flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
+        <div className="mt-4 sm:mt-6 pt-3 sm:pt-4 border-t border-border flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
             <div className="h-8 w-32 md:w-48 relative opacity-60 flex-shrink-0">
                  <canvas 
                     ref={canvasRef} 
@@ -214,14 +214,14 @@ export const VoiceMatchWidget: React.FC<VoiceMatchWidgetProps> = ({ className = 
                 />
             </div>
 
-            <div className="flex items-center gap-2 flex-wrap">
+            <div className="flex items-center gap-2 flex-shrink-0">
                 {transcription.length > 0 && (
                     <button
                         onClick={reset}
-                        className="flex items-center gap-2 px-3 sm:px-4 py-2 bg-zinc-100 dark:bg-white/5 hover:bg-zinc-200 dark:hover:bg-white/10 border border-zinc-200 dark:border-white/10 rounded text-xs font-mono text-zinc-600 dark:text-white/60 hover:text-zinc-900 dark:hover:text-white transition-colors group"
+                        className="flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 bg-zinc-100 dark:bg-white/5 hover:bg-zinc-200 dark:hover:bg-white/10 border border-zinc-200 dark:border-white/10 rounded text-xs font-mono text-zinc-600 dark:text-white/60 hover:text-zinc-900 dark:hover:text-white transition-colors group whitespace-nowrap"
                         title="Reset / Try Again"
                     >
-                        <RotateCcw size={14} className="group-hover:-rotate-180 transition-transform duration-500" /> 
+                        <RotateCcw size={14} className="group-hover:-rotate-180 transition-transform duration-500 flex-shrink-0" /> 
                         <span className="hidden sm:inline">TRY AGAIN</span>
                         <span className="sm:hidden">RESET</span>
                     </button>
@@ -230,9 +230,9 @@ export const VoiceMatchWidget: React.FC<VoiceMatchWidgetProps> = ({ className = 
                 {isLive && (
                     <button 
                         onClick={stop}
-                        className="flex items-center gap-2 px-3 sm:px-4 py-2 bg-red-500/10 hover:bg-red-500/20 border border-red-500/20 rounded text-xs font-mono text-red-400 hover:text-red-300 transition-colors"
+                        className="flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 bg-red-500/10 hover:bg-red-500/20 border border-red-500/20 rounded text-xs font-mono text-red-400 hover:text-red-300 transition-colors whitespace-nowrap"
                     >
-                        <MicOff size={12} /> 
+                        <MicOff size={12} className="flex-shrink-0" /> 
                         <span className="hidden sm:inline">TERMINATE</span>
                         <span className="sm:hidden">STOP</span>
                     </button>

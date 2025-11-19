@@ -83,7 +83,7 @@ export const Home: React.FC<HomeProps> = ({ setPage }) => {
             </div>
 
             {/* Right Side - Interactive Voice Match Widget */}
-            <div className="relative h-[320px] sm:h-[360px] lg:h-[400px]">
+            <div className="relative h-[380px] sm:h-[400px] lg:h-[420px]">
                 <VoiceMatchWidget className="h-full w-full shadow-2xl" />
             </div>
         </div>
