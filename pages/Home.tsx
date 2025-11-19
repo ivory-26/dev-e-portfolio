@@ -116,11 +116,11 @@ export const Home: React.FC<HomeProps> = ({ setPage }) => {
         <h2 className="text-3xl font-bold mb-2 text-primary">Activity & Insights</h2>
         <p className="text-secondary mb-12">What I'm writing, coding, and listening to.</p>
 
-        <div className="grid gap-6 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
+        <div className="grid gap-6 lg:grid-cols-3 lg:auto-rows-[minmax(220px,_1fr)]">
             {/* Latest Blog Card - Spans 2 cols on large */}
             <GlowCard 
                 onClick={() => latestBlog && setPage(PageView.BLOG)}
-                className={`min-w-0 lg:col-span-2 bg-surface border border-border p-8 hover:border-accent/50 transition-colors flex flex-col justify-between min-h-[300px] ${latestBlog ? 'cursor-pointer' : 'cursor-default'}`}
+                className={`min-w-0 lg:col-span-2 lg:row-span-2 bg-surface border border-border p-8 hover:border-accent/50 transition-colors flex flex-col justify-between min-h-[300px] lg:h-full ${latestBlog ? 'cursor-pointer' : 'cursor-default'}`}
                 glowColor="rgba(168, 85, 247, 0.15)" // Purple
             >
                 <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-opacity">
@@ -160,17 +160,14 @@ export const Home: React.FC<HomeProps> = ({ setPage }) => {
                 )}
             </GlowCard>
 
-            {/* Widgets Column */}
-            <div className="flex flex-col gap-6 min-w-0">
-                {/* Github Widget */}
-                <div className="flex-1">
-                    <GithubWidget />
-                </div>
-                
-                {/* Spotify Widget */}
-                <div className="flex-1">
-                    <SpotifyWidget />
-                </div>
+            {/* Github Widget */}
+            <div className="min-w-0 h-full">
+                <GithubWidget />
+            </div>
+            
+            {/* Spotify Widget */}
+            <div className="min-w-0 h-full">
+                <SpotifyWidget />
             </div>
         </div>
       </section>

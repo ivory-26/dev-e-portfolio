@@ -61,7 +61,7 @@ export const SpotifyWidget: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="bg-surface border border-border p-6 rounded-lg flex items-center justify-center w-full">
+      <div className="bg-surface border border-border p-6 rounded-lg flex items-center justify-center w-full h-full">
         <div className="text-sm text-secondary animate-pulse">Connecting to Spotify…</div>
       </div>
     );
@@ -69,7 +69,7 @@ export const SpotifyWidget: React.FC = () => {
 
   if (!playbackActive) {
     return (
-      <div className="bg-surface border border-border p-6 rounded-lg flex items-center gap-4 w-full">
+      <div className="bg-surface border border-border p-6 rounded-lg flex items-center gap-4 w-full h-full">
         <div className="relative w-16 h-16 bg-gradient-to-br from-gray-800 to-black rounded-md flex-shrink-0 flex items-center justify-center">
           <Music className="text-gray-600" size={24} />
         </div>
@@ -83,7 +83,7 @@ export const SpotifyWidget: React.FC = () => {
   }
 
   const content = (
-    <div className="bg-surface border border-border p-6 rounded-lg flex items-center gap-4 group hover:border-[#1DB954]/50 transition-colors w-full">
+    <div className="bg-surface border border-border p-6 rounded-lg flex items-center gap-4 group hover:border-[#1DB954]/50 transition-colors w-full h-full">
       <div className="relative w-16 h-16 bg-gradient-to-br from-gray-800 to-black rounded-md flex-shrink-0 flex items-center justify-center overflow-hidden">
         {nowPlaying?.artwork ? (
           <img
