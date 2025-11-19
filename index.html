@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ivory Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Stack+Sans+Notch:wght@200..700&display=swap" rel="stylesheet">
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['"Stack Sans Notch"', 'sans-serif'],
+              cursive: ['"Caveat"', 'cursive'],
+            },
+            colors: {
+              border: "var(--border-color)",
+              background: "var(--bg-color)",
+              surface: "var(--surface-color)",
+              primary: "var(--text-primary)",
+              secondary: "var(--text-secondary)",
+              muted: "var(--text-muted)",
+              accent: "var(--accent-color)",
+              "accent-glow": "rgba(34, 211, 238, 0.15)"
+            },
+            animation: {
+              'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+              'spin-slow': 'spin 3s linear infinite',
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      :root {
+        /* Light Mode Variables */
+        --bg-color: #ffffff;
+        --surface-color: #f4f4f5; /* zinc-100 */
+        --text-primary: #09090b; /* zinc-950 */
+        --text-secondary: #52525b; /* zinc-600 */
+        --text-muted: #a1a1aa; /* zinc-400 */
+        --border-color: rgba(0, 0, 0, 0.1);
+        --accent-color: #0891b2; /* cyan-600 */
+        --grid-line: rgba(0, 0, 0, 0.04);
+      }
+
+      .dark {
+        /* Dark Mode Variables */
+        --bg-color: #09090b;
+        --surface-color: #121214;
+        --text-primary: #ffffff;
+        --text-secondary: #a1a1aa; /* zinc-400 */
+        --text-muted: #52525b; /* zinc-600 */
+        --border-color: rgba(255, 255, 255, 0.1);
+        --accent-color: #22d3ee; /* cyan-400 */
+        --grid-line: rgba(255, 255, 255, 0.05);
+      }
+
+      body {
+        background-color: var(--bg-color);
+        color: var(--text-primary);
+        transition: background-color 0.3s ease, color 0.3s ease;
+      }
+
+      .grid-bg {
+        background-size: 50px 50px;
+        background-image: linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+                          linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+        mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
+        -webkit-mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
+      }
+
+      /* View Transitions */
+      ::view-transition-old(root),
+      ::view-transition-new(root) {
+        animation: none;
+        mix-blend-mode: normal;
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.554.0",
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.30.0"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body>
+    <div id="root"></div>
+  <script type="module" src="/index.tsx"></script>
+</body>
+</html>

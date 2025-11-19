@@ -1,0 +1,7 @@
+{
+  "name": "DevPortfolio - Render Style",
+  "description": "A high-performance portfolio website with a technical, dark-mode aesthetic inspired by cloud platforms.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}
