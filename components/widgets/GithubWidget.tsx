@@ -23,10 +23,6 @@ interface GithubEvent {
 }
 
 const GITHUB_USERNAME = 'ivory-26';
-const GITHUB_HEADERS = {
-  Accept: 'application/vnd.github+json',
-  'X-GitHub-Api-Version': '2022-11-28'
-};
 
 export const GithubWidget: React.FC = () => {
   const [commit, setCommit] = useState<CommitData | null>(null);
@@ -47,58 +43,22 @@ export const GithubWidget: React.FC = () => {
   useEffect(() => {
     const fetchLatestCommit = async () => {
       try {
-        const eventsResponse = await fetch(
-          `https://api.github.com/users/${GITHUB_USERNAME}/events/public?t=${Date.now()}`,
-          { headers: GITHUB_HEADERS }
-        );
-
-        if (!eventsResponse.ok) {
-          throw new Error(`GitHub events request failed: ${eventsResponse.status}`);
+        // Use our serverless API endpoint instead of calling GitHub directly
+        const response = await fetch('/api/github');
+        
+        if (!response.ok) {
+          throw new Error(`API request failed: ${response.status}`);
         }
 
-        const events = (await eventsResponse.json()) as GithubEvent[];
-
-        if (!Array.isArray(events)) {
-          throw new Error('Unexpected GitHub events response');
-        }
-
-        const latestPushEvent = events.find((event) => event.type === 'PushEvent');
-
-        if (!latestPushEvent?.repo?.name || !latestPushEvent.payload?.head) {
+        const data = await response.json();
+        
+        if (data.commit) {
+          setCommit(data.commit);
+          setTimeAgo(getTimeAgo(data.commit.date));
+        } else {
           setCommit(null);
           setTimeAgo('');
-          return;
         }
-
-        const repoFullName = latestPushEvent.repo.name;
-        const headSha = latestPushEvent.payload.head;
-
-        const commitResponse = await fetch(
-          `https://api.github.com/repos/${repoFullName}/commits/${headSha}`,
-          { headers: GITHUB_HEADERS }
-        );
-
-        if (!commitResponse.ok) {
-          throw new Error(`GitHub commit request failed: ${commitResponse.status}`);
-        }
-
-        const commitJson = await commitResponse.json();
-
-        const commitDate = commitJson.commit?.committer?.date || latestPushEvent.created_at || new Date().toISOString();
-        const branchName = latestPushEvent.payload.ref?.replace('refs/heads/', '') || 'main';
-        const repoName = repoFullName.split('/')[1] || repoFullName;
-
-        const commitData: CommitData = {
-          sha: headSha.substring(0, 7),
-          message: commitJson.commit?.message || 'Updated files',
-          repo: repoName,
-          branch: branchName,
-          date: commitDate,
-          url: commitJson.html_url || `https://github.com/${repoFullName}/commit/${headSha}`
-        };
-
-        setCommit(commitData);
-        setTimeAgo(getTimeAgo(commitDate));
       } catch (error) {
         console.error('Error fetching GitHub data:', error);
         setCommit(null);
