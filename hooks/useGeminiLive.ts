@@ -1,6 +1,8 @@
 import { useState, useRef, useCallback, useEffect } from 'react';
 import { GoogleGenAI, LiveServerMessage, Modality } from "@google/genai";
 
+const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
+
 export const useGeminiLive = () => {
   const [isLive, setIsLive] = useState(false);
   const [transcription, setTranscription] = useState<string[]>([]);
@@ -70,7 +72,7 @@ export const useGeminiLive = () => {
       setError(null);
       setTranscription([]);
 
-      if (!process.env.API_KEY) {
+      if (!GEMINI_API_KEY) {
         throw new Error("API Key missing");
       }
 
@@ -85,7 +87,7 @@ export const useGeminiLive = () => {
       });
       streamRef.current = stream;
 
-      const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+      const ai = new GoogleGenAI({ apiKey: GEMINI_API_KEY });
 
       const sessionPromise = ai.live.connect({
         model: 'gemini-2.5-flash-native-audio-preview-09-2025',

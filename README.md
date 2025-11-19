@@ -34,7 +34,7 @@ npm install
 Copy `.env.example` to `.env.local` (if the example file is missing, create `.env.local` manually) and set:
 
 ```
-GEMINI_API_KEY=your-google-ai-studio-key
+VITE_GEMINI_API_KEY=your-google-ai-studio-key
 ```
 
 ### Run Locally
@@ -52,11 +52,18 @@ npm run preview
 
 ## Deployment
 
-Any static host that supports Vite output works (Vercel, Netlify, Cloudflare Pages, GitHub Pages, etc.):
+### Vercel
+
+1. Install the Vercel CLI (`npm i -g vercel`) or connect the repo in the dashboard.
+2. When prompted for environment variables, add `VITE_GEMINI_API_KEY`.
+3. Vercel detects Vite automatically using `vercel.json`; default build command is `npm run build` and output directory is `dist`.
+4. Deploy via `vercel` (preview) and `vercel --prod` (production) or use the Vercel dashboard buttons.
+
+### Other Static Hosts
 
 1. Run `npm run build` to generate the production bundle in `dist/`.
-2. Upload the `dist/` contents to your host or configure the platform’s Vite adapter.
-3. Set `GEMINI_API_KEY` as an environment variable in your hosting provider’s dashboard so the Gemini widgets can authenticate.
+2. Upload the `dist/` folder to Netlify, Cloudflare Pages, GitHub Pages, etc.
+3. Set `VITE_GEMINI_API_KEY` as an environment variable in your hosting provider’s dashboard so the Gemini widgets can authenticate.
 
 ## Folder Overview
 
