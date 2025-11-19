@@ -204,8 +204,8 @@ export const VoiceMatchWidget: React.FC<VoiceMatchWidgetProps> = ({ className = 
              )}
         </div>
 
-        <div className="mt-6 pt-4 border-t border-border flex items-center justify-between">
-            <div className="h-8 w-32 md:w-48 relative opacity-60">
+        <div className="mt-6 pt-4 border-t border-border flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
+            <div className="h-8 w-32 md:w-48 relative opacity-60 flex-shrink-0">
                  <canvas 
                     ref={canvasRef} 
                     width="200" 
@@ -214,24 +214,27 @@ export const VoiceMatchWidget: React.FC<VoiceMatchWidgetProps> = ({ className = 
                 />
             </div>
 
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 flex-wrap">
                 {transcription.length > 0 && (
                     <button
                         onClick={reset}
-                        className="flex items-center gap-2 px-4 py-2 bg-zinc-100 dark:bg-white/5 hover:bg-zinc-200 dark:hover:bg-white/10 border border-zinc-200 dark:border-white/10 rounded text-xs font-mono text-zinc-600 dark:text-white/60 hover:text-zinc-900 dark:hover:text-white transition-colors group"
+                        className="flex items-center gap-2 px-3 sm:px-4 py-2 bg-zinc-100 dark:bg-white/5 hover:bg-zinc-200 dark:hover:bg-white/10 border border-zinc-200 dark:border-white/10 rounded text-xs font-mono text-zinc-600 dark:text-white/60 hover:text-zinc-900 dark:hover:text-white transition-colors group"
                         title="Reset / Try Again"
                     >
                         <RotateCcw size={14} className="group-hover:-rotate-180 transition-transform duration-500" /> 
                         <span className="hidden sm:inline">TRY AGAIN</span>
+                        <span className="sm:hidden">RESET</span>
                     </button>
                 )}
 
                 {isLive && (
                     <button 
                         onClick={stop}
-                        className="flex items-center gap-2 px-4 py-2 bg-red-500/10 hover:bg-red-500/20 border border-red-500/20 rounded text-xs font-mono text-red-400 hover:text-red-300 transition-colors"
+                        className="flex items-center gap-2 px-3 sm:px-4 py-2 bg-red-500/10 hover:bg-red-500/20 border border-red-500/20 rounded text-xs font-mono text-red-400 hover:text-red-300 transition-colors"
                     >
-                        <MicOff size={12} /> TERMINATE
+                        <MicOff size={12} /> 
+                        <span className="hidden sm:inline">TERMINATE</span>
+                        <span className="sm:hidden">STOP</span>
                     </button>
                 )}
             </div>
