@@ -60,10 +60,17 @@ export const SpotifyWidget: React.FC = () => {
     ? Math.min(100, Math.max(0, (nowPlaying.progressMs / nowPlaying.durationMs) * 100))
     : 0;
 
+  // Shared responsive card styling. Adjust min heights to keep grid stable.
+  const baseCardClasses = "bg-surface border border-border rounded-lg w-full h-full min-h-[140px] px-4 py-4 sm:p-6";
+
   if (loading) {
     return (
-      <div className="bg-surface border border-border p-6 rounded-lg flex items-center justify-center w-full h-full">
-        <div className="text-sm text-secondary animate-pulse">Connecting to Spotify…</div>
+      <div className={`${baseCardClasses} flex flex-col sm:flex-row items-start sm:items-center justify-center gap-3 sm:gap-4`}>
+        <div className="flex items-center gap-2 text-xs font-bold text-[#1DB954] uppercase tracking-wider">
+          <Music size={16} className="text-[#1DB954]" />
+          <span>Spotify</span>
+        </div>
+        <div className="text-xs sm:text-sm text-secondary animate-pulse">Connecting…</div>
       </div>
     );
   }
@@ -71,14 +78,14 @@ export const SpotifyWidget: React.FC = () => {
   // Credentials not configured case
   if (nowPlaying?.error === 'Spotify credentials not configured') {
     return (
-      <div className="bg-surface border border-border p-6 rounded-lg flex items-center gap-4 w-full h-full">
-        <div className="relative w-16 h-16 bg-gradient-to-br from-gray-800 to-black rounded-md flex-shrink-0 flex items-center justify-center">
+      <div className={`${baseCardClasses} flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4`}>
+        <div className="relative w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-gray-800 to-black rounded-md flex-shrink-0 flex items-center justify-center">
           <Music className="text-gray-600" size={24} />
         </div>
-        <div className="flex-1">
-          <div className="text-xs font-bold text-[#1DB954] uppercase tracking-wider mb-1">Spotify</div>
-          <div className="text-primary font-semibold">Credentials not set</div>
-          <div className="text-sm text-secondary">Add SPOTIFY_CLIENT_ID, SECRET & REFRESH_TOKEN.</div>
+        <div className="flex-1 space-y-0.5 sm:space-y-1">
+          <div className="text-[10px] sm:text-xs font-bold text-[#1DB954] uppercase tracking-wider">Spotify</div>
+          <div className="text-primary font-semibold text-sm sm:text-base">Credentials not set</div>
+          <div className="text-[11px] sm:text-sm text-secondary">Add SPOTIFY_CLIENT_ID, SECRET & REFRESH_TOKEN.</div>
         </div>
       </div>
     );
@@ -86,22 +93,22 @@ export const SpotifyWidget: React.FC = () => {
 
   if (!playbackActive) {
     return (
-      <div className="bg-surface border border-border p-6 rounded-lg flex items-center gap-4 w-full h-full">
-        <div className="relative w-16 h-16 bg-gradient-to-br from-gray-800 to-black rounded-md flex-shrink-0 flex items-center justify-center">
+      <div className={`${baseCardClasses} flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4`}>
+        <div className="relative w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-gray-800 to-black rounded-md flex-shrink-0 flex items-center justify-center">
           <Music className="text-gray-600" size={24} />
         </div>
-        <div className="flex-1">
-          <div className="text-xs font-bold text-[#1DB954] uppercase tracking-wider mb-1">Spotify</div>
-          <div className="text-primary font-semibold">Not playing right now</div>
-          <div className="text-sm text-secondary">Queue something up to see it here.</div>
+        <div className="flex-1 space-y-0.5 sm:space-y-1">
+          <div className="text-[10px] sm:text-xs font-bold text-[#1DB954] uppercase tracking-wider">Spotify</div>
+          <div className="text-primary font-semibold text-sm sm:text-base">Not playing right now</div>
+          <div className="text-[11px] sm:text-sm text-secondary">Queue something up to see it here.</div>
         </div>
       </div>
     );
   }
 
   const content = (
-    <div className="bg-surface border border-border p-6 rounded-lg flex items-center gap-4 group hover:border-[#1DB954]/50 transition-colors w-full h-full">
-      <div className="relative w-16 h-16 bg-gradient-to-br from-gray-800 to-black rounded-md flex-shrink-0 flex items-center justify-center overflow-hidden">
+    <div className={`${baseCardClasses} flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4 group hover:border-[#1DB954]/50 transition-colors`}>
+      <div className="relative w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-gray-800 to-black rounded-md flex-shrink-0 flex items-center justify-center overflow-hidden">
         {nowPlaying?.artwork ? (
           <img
             src={nowPlaying.artwork}
@@ -117,30 +124,32 @@ export const SpotifyWidget: React.FC = () => {
         ></div>
       </div>
 
-      <div className="flex-1 min-w-0">
-        <div className="flex items-center justify-between mb-1">
-            <div className="text-xs font-bold text-[#1DB954] uppercase tracking-wider flex items-center gap-2">
-                <span>Spotify</span>
-                <div className="flex items-end gap-[2px] h-3">
-                    <span className="w-1 bg-[#1DB954] animate-[pulse_1s_ease-in-out_infinite] h-full"></span>
-                    <span className="w-1 bg-[#1DB954] animate-[pulse_1.2s_ease-in-out_infinite] h-[60%]"></span>
-                    <span className="w-1 bg-[#1DB954] animate-[pulse_0.8s_ease-in-out_infinite] h-[80%]"></span>
-                </div>
+      <div className="flex-1 min-w-0 space-y-0.5 sm:space-y-1">
+        <div className="flex items-center justify-between mb-0.5 sm:mb-1">
+          <div className="text-[10px] sm:text-xs font-bold text-[#1DB954] uppercase tracking-wider flex items-center gap-1 sm:gap-2">
+            <span>Spotify</span>
+            <div className="flex items-end gap-[2px] h-2 sm:h-3">
+              <span className="w-1 bg-[#1DB954] animate-[pulse_1s_ease-in-out_infinite] h-full"></span>
+              <span className="w-1 bg-[#1DB954] animate-[pulse_1.2s_ease-in-out_infinite] h-[60%]"></span>
+              <span className="w-1 bg-[#1DB954] animate-[pulse_0.8s_ease-in-out_infinite] h-[80%]"></span>
             </div>
+          </div>
         </div>
-        <div className="truncate font-bold text-primary text-lg">{nowPlaying?.title}</div>
-        <div className="truncate text-sm text-secondary">{nowPlaying?.artists} • {nowPlaying?.album}</div>
+        <div className="truncate font-bold text-primary text-sm sm:text-lg leading-snug sm:leading-normal">{nowPlaying?.title}</div>
+        <div className="truncate text-[11px] sm:text-sm text-secondary">{nowPlaying?.artists} • {nowPlaying?.album}</div>
       </div>
     </div>
   );
 
   if (nowPlaying?.url) {
     return (
-      <a href={nowPlaying.url} target="_blank" rel="noreferrer" className="block">
-        {content}
-      </a>
+      <div className="h-full">
+        <a href={nowPlaying.url} target="_blank" rel="noreferrer" className="block h-full">
+          {content}
+        </a>
+      </div>
     );
   }
 
-  return content;
+  return <div className="h-full">{content}</div>;
 };
