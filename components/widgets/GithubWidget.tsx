@@ -110,8 +110,8 @@ export const GithubWidget: React.FC = () => {
 
     fetchLatestCommit();
 
-    // Refresh every 5 minutes to get new commits
-    const refreshInterval = setInterval(fetchLatestCommit, 5 * 60 * 1000);
+    // Refresh every 15 minutes to avoid rate limits while keeping data reasonably fresh
+    const refreshInterval = setInterval(fetchLatestCommit, 15 * 60 * 1000);
 
     return () => clearInterval(refreshInterval);
   }, []);
