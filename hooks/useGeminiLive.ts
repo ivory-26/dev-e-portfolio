@@ -89,8 +89,16 @@ export const useGeminiLive = () => {
       setTranscription([]);
 
       if (!GEMINI_API_KEY) {
-        throw new Error("API Key missing");
+        setError("API Key missing. Check your .env file.");
+        return;
       }
+
+      if (!GEMINI_API_KEY.startsWith('AIza')) {
+        setError("Invalid API key format. Check your VITE_GEMINI_API_KEY in .env");
+        return;
+      }
+
+      console.log('Starting Gemini Live session...');
 
       const stream = await navigator.mediaDevices.getUserMedia({
         audio: {
@@ -102,6 +110,8 @@ export const useGeminiLive = () => {
         },
       });
       streamRef.current = stream;
+
+      console.log('Microphone access granted');
 
       const ai = new GoogleGenAI({ apiKey: GEMINI_API_KEY });
 
@@ -115,6 +125,7 @@ export const useGeminiLive = () => {
         },
         callbacks: {
           onopen: () => {
+            console.log('WebSocket connection opened');
             isConnectedRef.current = true;
             setIsLive(true);
             // Initialize Audio Context pipeline once connection is open
@@ -150,9 +161,10 @@ export const useGeminiLive = () => {
     
                   const base64Data = encodeAudioData(new Uint8Array(int16.buffer));
     
+                  // Use the resolved session directly instead of promise
                   sessionPromise.then((session) => {
-                    // Double check connection before sending
-                    if (isConnectedRef.current && session) {
+                    // Triple check: connection state, session exists, and not closing
+                    if (isConnectedRef.current && session && sessionRef.current) {
                       try {
                         session.sendRealtimeInput({
                           media: {
@@ -161,11 +173,13 @@ export const useGeminiLive = () => {
                           },
                         });
                       } catch (err) {
-                        // Silently ignore send errors when connection is closing
+                        // Connection closed mid-send, stop processing
+                        isConnectedRef.current = false;
                       }
                     }
                   }).catch(() => {
-                      // Silent catch for session end
+                      // Session ended
+                      isConnectedRef.current = false;
                   });
                 };
     
@@ -193,14 +207,34 @@ export const useGeminiLive = () => {
             }
           },
           onclose: () => {
+            console.log('WebSocket connection closed');
             isConnectedRef.current = false;
             setIsLive(false);
+            
+            // Immediately stop audio processing
+            if (processorRef.current) {
+              processorRef.current.disconnect();
+              processorRef.current.onaudioprocess = null;
+            }
+            if (sourceRef.current) {
+              sourceRef.current.disconnect();
+            }
+            if (analyserRef.current) {
+              analyserRef.current.disconnect();
+            }
           },
           onerror: (err) => {
             console.error("Gemini Live Error:", err);
             isConnectedRef.current = false;
+            
+            // Immediately stop audio processing on error
+            if (processorRef.current) {
+              processorRef.current.disconnect();
+              processorRef.current.onaudioprocess = null;
+            }
+            
             if (isLive) {
-               setError("Connection interrupted");
+               setError(`Connection error: ${err?.message || 'Unknown error'}`);
                stop();
             }
           },
@@ -208,9 +242,13 @@ export const useGeminiLive = () => {
       });
 
       sessionRef.current = sessionPromise;
-    } catch (err) {
-      console.error(err);
-      setError("Connection failed. Please check permissions.");
+      
+      // Wait for session to be established before returning
+      await sessionPromise;
+      console.log('Session established successfully');
+    } catch (err: any) {
+      console.error('Failed to start session:', err);
+      setError(err?.message || "Connection failed. Please check permissions and API key.");
       stop();
     }
   }, [isLive, stop]);
