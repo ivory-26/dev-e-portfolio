@@ -3,6 +3,14 @@ import { Project, Experience, BlogPost, SkillCategory } from './types';
 
 export const PROJECTS: Project[] = [
   {
+    id: 5,
+    title: "Dev E-Portfolio (This Site)",
+    description: "Personal developer portfolio built with React + Vite, TypeScript and Tailwind. Features live widgets (GitHub, Spotify) and a Gemini Live voice transcript demo. Deployed on Vercel.",
+    tech: ["React", "TypeScript", "Vite", "Tailwind", "Vercel"],
+    link: "https://github.com/ivory-26/dev-e-portfolio",
+    featured: true
+  },
+  {
     id: 0,
     title: "WeTall",
     description: "Bicopter vtol project inspired by a lot made by a few",
@@ -40,7 +48,7 @@ export const PROJECTS: Project[] = [
     description: "A notes application built with modern frontend technologies.",
     tech: ["Frontend", "Web App", "Notes"],
     link: "https://github.com/ivory-26/frontend-notes-app",
-    featured: true
+    featured: false
   }
 ];
 
