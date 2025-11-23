@@ -27,7 +27,7 @@ export const BlogPost: React.FC<BlogPostProps> = ({ postId, toggleTheme, current
 
   const handleShare = async () => {
     // Use deployed URL when available, fallback to current origin
-    const deployedUrl = 'https://sahil-karpe.vercel.app';
+    const deployedUrl = 'https://dev-e-portfolio.vercel.app/';
     const url = `${deployedUrl}?blogpost=${postId}`;
     try {
       await navigator.clipboard.writeText(url);
