@@ -2,20 +2,28 @@ import React from 'react';
 import { BLOG_POSTS } from '../constants';
 import { GlowCard } from '../components/ui/GlowCard';
 import { PageView } from '../types';
+import { getBlogPostUrl } from '../utils/slugUtils';
+import { SEOHead } from '../components/SEOHead';
 
 interface BlogProps {
-  setSelectedBlogPostId: (id: number) => void;
+  setSelectedBlogPostSlug: (slug: string) => void;
   setPage: (page: PageView) => void;
 }
 
-export const Blog: React.FC<BlogProps> = ({ setSelectedBlogPostId, setPage }) => {
-  const handleBlogPostClick = (postId: number) => {
-    setSelectedBlogPostId(postId);
+export const Blog: React.FC<BlogProps> = ({ setSelectedBlogPostSlug, setPage }) => {
+  const handleBlogPostClick = (slug: string) => {
+    setSelectedBlogPostSlug(slug);
     setPage(PageView.BLOG_POST);
+    window.history.pushState({}, '', getBlogPostUrl(slug));
   };
 
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 pt-28 sm:pt-32 pb-16 sm:pb-20">
+      <SEOHead
+        title="Blog | Sahil Karpe"
+        description="Engineering insights on software architecture, performance optimization, and web development from Sahil Karpe. Practical guides and technical tutorials for modern developers."
+        canonicalUrl="https://dev-e-portfolio.vercel.app/blog"
+      />
       <div className="mb-10 sm:mb-16">
         <h1 className="text-4xl sm:text-5xl font-bold mb-4 sm:mb-6 text-primary">Engineering Log</h1>
         <p className="text-lg sm:text-xl text-secondary max-w-2xl">
@@ -29,7 +37,7 @@ export const Blog: React.FC<BlogProps> = ({ setSelectedBlogPostId, setPage }) =>
             <article 
               key={post.id} 
               className="group cursor-pointer min-w-0"
-              onClick={() => handleBlogPostClick(post.id)}
+              onClick={() => handleBlogPostClick(post.slug)}
             >
                 <GlowCard 
                     className="bg-surface border border-border p-8 hover:bg-background/50 hover:border-accent/30 transition-all duration-300"

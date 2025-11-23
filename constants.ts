@@ -100,6 +100,7 @@ export const BLOG_POSTS: BlogPost[] = [
   {
     id: 1,
     title: "The Simple Secret to Great Prompts: Input > Process > Output",
+    slug: "the-simple-secret-to-great-prompts-input-process-output",
     excerpt: "Master the three-step loop to writing powerful, effective prompts for AI chatbots and Large Language Models.",
     date: "November 24, 2025",
     readTime: "5 min read",

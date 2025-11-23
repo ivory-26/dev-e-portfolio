@@ -8,26 +8,34 @@ import { SpotifyWidget } from '../components/widgets/SpotifyWidget';
 import { GithubWidget } from '../components/widgets/GithubWidget';
 import { VoiceMatchWidget } from '../components/widgets/VoiceMatchWidget';
 import { GlowCard } from '../components/ui/GlowCard';
+import { getBlogPostUrl } from '../utils/slugUtils';
+import { SEOHead } from '../components/SEOHead';
 
 interface HomeProps {
   setPage: (page: PageView) => void;
-  setSelectedBlogPostId?: (id: number) => void;
+  setSelectedBlogPostSlug?: (slug: string) => void;
 }
 
-export const Home: React.FC<HomeProps> = ({ setPage, setSelectedBlogPostId }) => {
+export const Home: React.FC<HomeProps> = ({ setPage, setSelectedBlogPostSlug }) => {
   // Now showing all featured projects (which we updated to 4)
   const featuredProjects = PROJECTS.filter(p => p.featured).slice(0, 4);
   const latestBlog = BLOG_POSTS.length > 0 ? BLOG_POSTS[0] : null;
 
   const handleBlogClick = () => {
-    if (latestBlog && setSelectedBlogPostId) {
-      setSelectedBlogPostId(latestBlog.id);
+    if (latestBlog && setSelectedBlogPostSlug) {
+      setSelectedBlogPostSlug(latestBlog.slug);
       setPage(PageView.BLOG_POST);
+      window.history.pushState({}, '', getBlogPostUrl(latestBlog.slug));
     }
   };
 
   return (
     <div className="flex flex-col gap-16 md:gap-24 pt-28 sm:pt-32">
+      <SEOHead
+        title="Sahil Karpe | Software Engineer & Full-Stack Developer"
+        description="Portfolio of Sahil Karpe - Software Engineer specializing in full-stack development, AI/ML, and modern web technologies. Explore projects, blog posts, and technical insights."
+        canonicalUrl="https://dev-e-portfolio.vercel.app/"
+      />
       {/* Hero / About Section */}
             <section className="relative max-w-7xl mx-auto px-4 sm:px-6">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">

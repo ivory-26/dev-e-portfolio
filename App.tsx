@@ -10,12 +10,13 @@ import { Blog } from './pages/Blog';
 import { BlogPost } from './pages/BlogPost';
 import { Contact } from './pages/Contact';
 import { PageView } from './types';
+import { BLOG_POSTS } from './constants';
 
 const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<PageView>(PageView.HOME);
   const [theme, setTheme] = useState<'light' | 'dark'>('dark');
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
-  const [selectedBlogPostId, setSelectedBlogPostId] = useState<number | null>(null);
+  const [selectedBlogPostSlug, setSelectedBlogPostSlug] = useState<string | null>(null);
 
   // Initialize theme from localStorage or system preference could be added here
   // For now, default to dark as per request, but allow toggle.
@@ -29,13 +30,31 @@ const App: React.FC = () => {
     }
   }, [theme]);
 
-  // Handle URL query parameters for blog posts
+  // Handle URL routing for blog posts (both new slug-based and legacy ID-based)
   useEffect(() => {
+    const path = window.location.pathname;
     const params = new URLSearchParams(window.location.search);
-    const blogPostId = params.get('blogpost');
-    if (blogPostId) {
-      setSelectedBlogPostId(parseInt(blogPostId, 10));
-      setCurrentPage(PageView.BLOG_POST);
+    
+    // Check for new format: /blog/slug
+    if (path.startsWith('/blog/')) {
+      const slug = path.replace('/blog/', '');
+      if (slug) {
+        setSelectedBlogPostSlug(slug);
+        setCurrentPage(PageView.BLOG_POST);
+      }
+    }
+    // Check for legacy format: ?blogpost=id (backward compatibility)
+    else if (params.has('blogpost')) {
+      const blogPostId = parseInt(params.get('blogpost') || '0', 10);
+      const post = BLOG_POSTS.find(p => p.id === blogPostId);
+      
+      if (post) {
+        // Redirect to new URL format
+        const newUrl = `/blog/${post.slug}`;
+        window.history.replaceState({}, '', newUrl);
+        setSelectedBlogPostSlug(post.slug);
+        setCurrentPage(PageView.BLOG_POST);
+      }
     }
   }, []);
 
@@ -84,7 +103,7 @@ const App: React.FC = () => {
   const renderPage = () => {
     switch (currentPage) {
       case PageView.HOME:
-        return <Home setPage={setCurrentPage} setSelectedBlogPostId={setSelectedBlogPostId} />;
+        return <Home setPage={setCurrentPage} setSelectedBlogPostSlug={setSelectedBlogPostSlug} />;
       case PageView.PROJECTS:
         return <Projects />;
       case PageView.SKILLS:
@@ -92,22 +111,25 @@ const App: React.FC = () => {
       case PageView.EXPERIENCE:
         return <Experience />;
       case PageView.BLOG:
-        return <Blog setSelectedBlogPostId={setSelectedBlogPostId} setPage={setCurrentPage} />;
+        return <Blog setSelectedBlogPostSlug={setSelectedBlogPostSlug} setPage={setCurrentPage} />;
       case PageView.BLOG_POST:
-        return selectedBlogPostId ? (
+        return selectedBlogPostSlug ? (
           <BlogPost 
-            postId={selectedBlogPostId} 
+            slug={selectedBlogPostSlug} 
             toggleTheme={toggleTheme} 
             currentTheme={theme}
-            onBackClick={() => setCurrentPage(PageView.BLOG)}
+            onBackClick={() => {
+              setCurrentPage(PageView.BLOG);
+              window.history.pushState({}, '', '/');
+            }}
           />
         ) : (
-          <Blog setSelectedBlogPostId={setSelectedBlogPostId} setPage={setCurrentPage} />
+          <Blog setSelectedBlogPostSlug={setSelectedBlogPostSlug} setPage={setCurrentPage} />
         );
       case PageView.CONTACT:
         return <Contact />;
       default:
-        return <Home setPage={setCurrentPage} setSelectedBlogPostId={setSelectedBlogPostId} />;
+        return <Home setPage={setCurrentPage} setSelectedBlogPostSlug={setSelectedBlogPostSlug} />;
     }
   };
 

@@ -2,21 +2,27 @@ import React, { useState } from 'react';
 import { BLOG_POSTS } from '../constants';
 import { Share2, Check, ArrowLeft } from 'lucide-react';
 import { GlowCard } from '../components/ui/GlowCard';
+import { getBlogPostUrl } from '../utils/slugUtils';
+import { SEOHead } from '../components/SEOHead';
 
 interface BlogPostProps {
-  postId: number;
+  slug: string;
   toggleTheme: (e: React.MouseEvent<HTMLButtonElement>) => void;
   currentTheme: 'light' | 'dark';
   onBackClick?: () => void;
 }
 
-export const BlogPost: React.FC<BlogPostProps> = ({ postId, toggleTheme, currentTheme, onBackClick }) => {
-  const post = BLOG_POSTS.find(p => p.id === postId);
+export const BlogPost: React.FC<BlogPostProps> = ({ slug, toggleTheme, currentTheme, onBackClick }) => {
+  const post = BLOG_POSTS.find(p => p.slug === slug);
   const [copied, setCopied] = useState(false);
 
   if (!post) {
     return (
       <div className="max-w-4xl mx-auto px-4 sm:px-6 pt-28 sm:pt-32 pb-16 sm:pb-20">
+        <SEOHead 
+          title="Post Not Found | Sahil Karpe"
+          description="The blog post you're looking for doesn't exist."
+        />
         <div className="text-center">
           <h1 className="text-4xl font-bold text-primary mb-4">Post Not Found</h1>
           <p className="text-secondary">The blog post you're looking for doesn't exist.</p>
@@ -26,9 +32,7 @@ export const BlogPost: React.FC<BlogPostProps> = ({ postId, toggleTheme, current
   }
 
   const handleShare = async () => {
-    // Use deployed URL when available, fallback to current origin
-    const deployedUrl = 'https://dev-e-portfolio.vercel.app/';
-    const url = `${deployedUrl}?blogpost=${postId}`;
+    const url = getBlogPostUrl(post.slug, true);
     try {
       await navigator.clipboard.writeText(url);
       setCopied(true);
@@ -37,6 +41,8 @@ export const BlogPost: React.FC<BlogPostProps> = ({ postId, toggleTheme, current
       console.error('Failed to copy to clipboard:', err);
     }
   };
+
+  const canonicalUrl = getBlogPostUrl(post.slug, true);
 
   // Parse markdown-style content into paragraphs and sections
   const renderContent = (content: string) => {
@@ -159,6 +165,20 @@ export const BlogPost: React.FC<BlogPostProps> = ({ postId, toggleTheme, current
 
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 pt-28 sm:pt-32 pb-16 sm:pb-20">
+      <SEOHead
+        title={`${post.title} | Sahil Karpe`}
+        description={post.excerpt}
+        canonicalUrl={canonicalUrl}
+        ogType="article"
+        ogImage={`https://sahil-karpe.vercel.app/og-blog-${post.id}.jpg`}
+        article={{
+          publishedTime: post.date,
+          author: 'Sahil Karpe',
+          section: post.category,
+          tags: [post.category, 'Software Engineering', 'Technology'],
+        }}
+      />
+      
       {/* Back Button */}
       {onBackClick && (
         <button
