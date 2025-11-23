@@ -24,6 +24,7 @@ export interface BlogPost {
   date: string;
   readTime: string;
   category: string;
+  content: string;
 }
 
 export interface Skill {
@@ -43,5 +44,6 @@ export enum PageView {
   SKILLS = 'SKILLS',
   EXPERIENCE = 'EXPERIENCE',
   BLOG = 'BLOG',
+  BLOG_POST = 'BLOG_POST',
   CONTACT = 'CONTACT'
 }

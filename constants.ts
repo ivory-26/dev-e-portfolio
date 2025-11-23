@@ -96,4 +96,58 @@ export const SKILL_CATEGORIES: SkillCategory[] = [
   }
 ];
 
-export const BLOG_POSTS: BlogPost[] = [];
+export const BLOG_POSTS: BlogPost[] = [
+  {
+    id: 1,
+    title: "The Simple Secret to Great Prompts: Input > Process > Output",
+    excerpt: "Master the three-step loop to writing powerful, effective prompts for AI chatbots and Large Language Models.",
+    date: "November 24, 2025",
+    readTime: "5 min read",
+    category: "AI & Productivity",
+    content: `# The Simple Secret to Great Prompts: Input > Process > Output
+
+Ever struggle to get the right answer from an AI chatbot or Large Language Model (LLM)? Think of it exactly like talking to a computer: you give it an **Input**, it **Processes** the request, and you get an **Output**. Mastering this simple three-step loop is the key to writing powerful, effective prompts.
+
+## Input (The Data)
+
+The first step is giving the AI all the data it needs. Don't be vague—be specific.
+
+**What it means:** Furnish the LLM with relevant content. This is where you feed it the article, the data, or the background information.
+
+**How to do it:** Clearly state your idea, provide any necessary references or context, and specify the desired steps.
+
+**Example Prompt:**
+
+"I need a summary of the provided article about renewable energy sources. Focus on the environmental benefits and economic implications. The summary should be approximately 200 words."
+
+## Process (The Instructions)
+
+Just as a computer's CPU executes tasks through a defined workflow, you need to guide the LLM's "brain."
+
+**What it means:** Guide the LLM through a defined workflow. Specify the desired execution method and the persona you want it to adopt.
+
+**How to do it:** Ask the AI to act as a specific persona (a professor, an environmental scientist, a copywriter, etc.). Providing foundational knowledge about the task will significantly enhance the LLM's performance; the more context, the superior the outcome.
+
+**Example Prompt:**
+
+"Act as an environmental scientist. Analyze the provided data on solar panel efficiency, then explain the improvements in layperson's terms. Do not use jargon. Start by defining solar panel efficiency."
+
+## Output (The Format)
+
+Finally, tell the AI exactly how you want the final answer to look.
+
+**What it means:** Instruct the LLM on the desired structure of its response (text, charts, lists, etc.).
+
+**How to do it:** Be precise about the structure. Don't hesitate to offer references or examples to ensure the output meets your expectations.
+
+**Example Prompt:**
+
+"Provide the summary as a bulleted list, with each bullet point describing a distinct benefit or implication. Conclude with a single sentence summarizing the overall outlook for renewable energy."
+
+## Key Takeaway
+
+**DON'T** be afraid to test and experiment. **KEEP PROMPTING!**
+
+The art of prompt engineering isn't about finding the perfect wording on the first try—it's about iterating and refining your approach. By understanding the Input > Process > Output framework, you're already ahead of the curve in getting the most out of AI tools.`
+  }
+];

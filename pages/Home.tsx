@@ -11,12 +11,20 @@ import { GlowCard } from '../components/ui/GlowCard';
 
 interface HomeProps {
   setPage: (page: PageView) => void;
+  setSelectedBlogPostId?: (id: number) => void;
 }
 
-export const Home: React.FC<HomeProps> = ({ setPage }) => {
+export const Home: React.FC<HomeProps> = ({ setPage, setSelectedBlogPostId }) => {
   // Now showing all featured projects (which we updated to 4)
   const featuredProjects = PROJECTS.filter(p => p.featured).slice(0, 4);
   const latestBlog = BLOG_POSTS.length > 0 ? BLOG_POSTS[0] : null;
+
+  const handleBlogClick = () => {
+    if (latestBlog && setSelectedBlogPostId) {
+      setSelectedBlogPostId(latestBlog.id);
+      setPage(PageView.BLOG_POST);
+    }
+  };
 
   return (
     <div className="flex flex-col gap-16 md:gap-24 pt-28 sm:pt-32">
@@ -116,16 +124,13 @@ export const Home: React.FC<HomeProps> = ({ setPage }) => {
         <h2 className="text-3xl font-bold mb-2 text-primary">Activity & Insights</h2>
         <p className="text-secondary mb-12">What I'm writing, coding, and listening to.</p>
 
-        <div className="grid gap-6 lg:grid-cols-3 lg:auto-rows-[minmax(220px,_1fr)]">
-            {/* Latest Blog Card - Spans 2 cols on large */}
+        <div className="grid gap-6 lg:grid-cols-3 lg:grid-rows-2">
+            {/* Latest Blog Card - Spans 2 rows on large */}
             <GlowCard 
-                onClick={() => latestBlog && setPage(PageView.BLOG)}
-                className={`min-w-0 lg:col-span-2 lg:row-span-2 bg-surface border border-border p-8 hover:border-accent/50 transition-colors flex flex-col justify-between min-h-[300px] lg:h-full ${latestBlog ? 'cursor-pointer' : 'cursor-default'}`}
+                onClick={handleBlogClick}
+                className={`min-w-0 lg:col-span-2 lg:row-span-2 bg-surface border border-border p-8 hover:border-accent/50 transition-colors flex flex-col justify-between ${latestBlog ? 'cursor-pointer' : 'cursor-default'}`}
                 glowColor="rgba(168, 85, 247, 0.15)" // Purple
             >
-                <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-opacity">
-                    <ArrowUpRight size={120} />
-                </div>
                 
                 {latestBlog ? (
                   <>
@@ -161,12 +166,12 @@ export const Home: React.FC<HomeProps> = ({ setPage }) => {
             </GlowCard>
 
             {/* Github Widget */}
-            <div className="min-w-0 h-full">
+            <div className="min-w-0">
                 <GithubWidget />
             </div>
             
             {/* Spotify Widget */}
-            <div className="min-w-0 h-full">
+            <div className="min-w-0">
                 <SpotifyWidget />
             </div>
         </div>

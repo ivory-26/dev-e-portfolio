@@ -89,8 +89,20 @@ export const GithubWidget: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="bg-surface border border-border p-6 rounded-lg flex items-center justify-center w-full h-full">
-        <div className="text-sm text-secondary">Loading...</div>
+      <div className="bg-surface border border-border p-6 rounded-lg flex flex-col justify-between w-full h-full">
+        {/* Skeleton loader */}
+        <div className="space-y-3">
+          <div className="flex justify-between items-start">
+            <div className="h-4 bg-border/50 rounded w-20 animate-pulse"></div>
+            <div className="h-4 bg-border/50 rounded w-16 animate-pulse"></div>
+          </div>
+          <div className="h-5 bg-border/50 rounded w-32 animate-pulse"></div>
+          <div className="h-4 bg-border/50 rounded w-24 animate-pulse"></div>
+        </div>
+        <div className="flex items-center justify-between pt-3">
+          <div className="h-4 bg-border/50 rounded w-20 animate-pulse"></div>
+          <div className="h-4 bg-border/50 rounded w-4 animate-pulse"></div>
+        </div>
       </div>
     );
   }

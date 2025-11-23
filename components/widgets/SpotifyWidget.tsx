@@ -65,12 +65,16 @@ export const SpotifyWidget: React.FC = () => {
 
   if (loading) {
     return (
-      <div className={`${baseCardClasses} flex flex-col sm:flex-row items-start sm:items-center justify-center gap-3 sm:gap-4`}>
-        <div className="flex items-center gap-2 text-xs font-bold text-[#1DB954] uppercase tracking-wider">
-          <Music size={16} className="text-[#1DB954]" />
-          <span>Spotify</span>
+      <div className={`${baseCardClasses} flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4`}>
+        {/* Skeleton artwork */}
+        <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-gray-800 to-black rounded-md flex-shrink-0 animate-pulse"></div>
+        
+        {/* Skeleton text */}
+        <div className="flex-1 w-full space-y-2 sm:space-y-1">
+          <div className="h-4 bg-border/50 rounded w-24 animate-pulse"></div>
+          <div className="h-5 bg-border/50 rounded w-40 animate-pulse"></div>
+          <div className="h-3 bg-border/50 rounded w-48 animate-pulse"></div>
         </div>
-        <div className="text-xs sm:text-sm text-secondary animate-pulse">Connecting…</div>
       </div>
     );
   }

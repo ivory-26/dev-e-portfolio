@@ -129,7 +129,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 key={link.id}
                 onClick={() => setPage(link.id)}
                 className={`text-sm font-medium transition-colors duration-200 whitespace-nowrap ${
-                  currentPage === link.id
+                  currentPage === link.id || (link.id === PageView.BLOG && currentPage === PageView.BLOG_POST)
                     ? 'text-primary'
                     : 'text-secondary hover:text-primary'
                 }`}
@@ -204,7 +204,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               key={link.id}
               onClick={() => setPage(link.id)}
               className={`text-sm font-medium px-4 py-2 rounded-full whitespace-nowrap transition-colors flex-shrink-0 ${
-                currentPage === link.id
+                currentPage === link.id || (link.id === PageView.BLOG && currentPage === PageView.BLOG_POST)
                   ? 'text-primary bg-surface border border-border'
                   : 'text-secondary hover:text-primary hover:bg-surface/50'
               }`}
