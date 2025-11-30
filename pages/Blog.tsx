@@ -3,6 +3,7 @@ import { BLOG_POSTS } from '../constants';
 import { GlowCard } from '../components/ui/GlowCard';
 import { PageView } from '../types';
 import { getBlogPostUrl } from '../utils/slugUtils';
+import { getBlogPostsSortedByDate } from '../utils/blogUtils';
 import { SEOHead } from '../components/SEOHead';
 
 interface BlogProps {
@@ -11,6 +12,8 @@ interface BlogProps {
 }
 
 export const Blog: React.FC<BlogProps> = ({ setSelectedBlogPostSlug, setPage }) => {
+  const sortedBlogPosts = getBlogPostsSortedByDate(BLOG_POSTS);
+  
   const handleBlogPostClick = (slug: string) => {
     setSelectedBlogPostSlug(slug);
     setPage(PageView.BLOG_POST);
@@ -32,8 +35,8 @@ export const Blog: React.FC<BlogProps> = ({ setSelectedBlogPostSlug, setPage }) 
       </div>
 
       <div className="grid gap-5 sm:gap-6 min-w-0">
-        {BLOG_POSTS.length > 0 ? (
-          BLOG_POSTS.map((post) => (
+        {sortedBlogPosts.length > 0 ? (
+          sortedBlogPosts.map((post) => (
             <article 
               key={post.id} 
               className="group cursor-pointer min-w-0"

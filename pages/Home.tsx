@@ -1,14 +1,13 @@
 import React from 'react';
-import { PROJECTS, BLOG_POSTS } from '../constants';
+import { PROJECTS } from '../constants';
 import { ProjectCard } from '../components/ui/ProjectCard';
-import { ArrowRight, ArrowUpRight, User } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { PageView } from '../types';
 import { AnimatedButton } from '../components/ui/AnimatedButton';
 import { SpotifyWidget } from '../components/widgets/SpotifyWidget';
 import { GithubWidget } from '../components/widgets/GithubWidget';
 import { VoiceMatchWidget } from '../components/widgets/VoiceMatchWidget';
-import { GlowCard } from '../components/ui/GlowCard';
-import { getBlogPostUrl } from '../utils/slugUtils';
+import { BlogWidget } from '../components/widgets/BlogWidget';
 import { SEOHead } from '../components/SEOHead';
 
 interface HomeProps {
@@ -19,15 +18,6 @@ interface HomeProps {
 export const Home: React.FC<HomeProps> = ({ setPage, setSelectedBlogPostSlug }) => {
   // Now showing all featured projects (which we updated to 4)
   const featuredProjects = PROJECTS.filter(p => p.featured).slice(0, 4);
-  const latestBlog = BLOG_POSTS.length > 0 ? BLOG_POSTS[0] : null;
-
-  const handleBlogClick = () => {
-    if (latestBlog && setSelectedBlogPostSlug) {
-      setSelectedBlogPostSlug(latestBlog.slug);
-      setPage(PageView.BLOG_POST);
-      window.history.pushState({}, '', getBlogPostUrl(latestBlog.slug));
-    }
-  };
 
   return (
     <div className="flex flex-col gap-16 md:gap-24 pt-28 sm:pt-32">
@@ -132,46 +122,13 @@ export const Home: React.FC<HomeProps> = ({ setPage, setSelectedBlogPostSlug }) 
         <h2 className="text-3xl font-bold mb-2 text-primary">Activity & Insights</h2>
         <p className="text-secondary mb-12">What I'm writing, coding, and listening to.</p>
 
-        <div className="grid gap-6 lg:grid-cols-3 lg:grid-rows-2">
+        <div className="grid gap-6 lg:grid-cols-3 lg:grid-rows-[150px_150px]">
             {/* Latest Blog Card - Spans 2 rows on large */}
-            <GlowCard 
-                onClick={handleBlogClick}
-                className={`min-w-0 lg:col-span-2 lg:row-span-2 bg-surface border border-border p-8 hover:border-accent/50 transition-colors flex flex-col justify-between ${latestBlog ? 'cursor-pointer' : 'cursor-default'}`}
-                glowColor="rgba(168, 85, 247, 0.15)" // Purple
-            >
-                
-                {latestBlog ? (
-                  <>
-                    <div className="relative z-10">
-                        <div className="flex items-center gap-3 mb-6">
-                            <span className="text-xs font-bold px-2 py-1 bg-accent/10 text-accent rounded">LATEST POST</span>
-                            <span className="text-xs text-secondary font-mono">{latestBlog.date}</span>
-                        </div>
-                        
-                        <h3 className="text-2xl md:text-3xl font-bold mb-4 text-primary group-hover:text-accent transition-colors">
-                            {latestBlog.title}
-                        </h3>
-                        <p className="text-secondary max-w-xl leading-relaxed mb-6">
-                            {latestBlog.excerpt}
-                        </p>
-                    </div>
-
-                    <div className="relative z-10 flex items-center gap-2 text-sm font-bold text-primary group-hover:text-accent transition-colors">
-                        Read Article <ArrowUpRight size={16} />
-                    </div>
-                  </>
-                ) : (
-                  <div className="relative z-10 flex flex-col items-center justify-center h-full">
-                    <span className="text-xs font-bold px-2 py-1 bg-accent/10 text-accent rounded mb-4">BLOG</span>
-                    <h3 className="text-3xl md:text-4xl font-bold mb-4 text-primary">
-                        Coming Soon
-                    </h3>
-                    <p className="text-secondary text-center max-w-md">
-                        I'm working on some exciting content. Check back soon for articles on web development and coding!
-                    </p>
-                  </div>
-                )}
-            </GlowCard>
+            <BlogWidget 
+                setPage={setPage}
+                setSelectedBlogPostSlug={setSelectedBlogPostSlug}
+                className="min-w-0 lg:col-span-2 lg:row-span-2 h-[360px] lg:h-full"
+            />
 
             {/* Github Widget */}
             <div className="min-w-0">
