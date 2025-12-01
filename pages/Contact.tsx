@@ -1,8 +1,27 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Mail, MapPin, MessageSquare } from 'lucide-react';
 import { AnimatedButton } from '../components/ui/AnimatedButton';
 
 export const Contact: React.FC = () => {
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [message, setMessage] = useState('');
+
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        
+        if (!name.trim() || !email.trim() || !message.trim()) {
+            alert('Please fill in all fields');
+            return;
+        }
+
+        const recipientEmail = 'karpesahil2007@gmail.com';
+        const subject = encodeURIComponent(`Portfolio Contact from ${name}`);
+        const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`);
+        
+        window.location.href = `mailto:${recipientEmail}?subject=${subject}&body=${body}`;
+    };
+
     return (
         <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-28 sm:pt-32 pb-16 sm:pb-20">
              <div className="grid lg:grid-cols-2 gap-12 lg:gap-16">
@@ -36,29 +55,38 @@ export const Contact: React.FC = () => {
             </div>
 
             <div className="bg-surface border border-border p-6 sm:p-8 md:p-10 lg:p-12 rounded-lg">
-                <form className="space-y-5" onSubmit={(e) => e.preventDefault()}>
+                <form className="space-y-5" onSubmit={handleSubmit}>
                     <div>
                         <label className="block text-sm font-bold mb-2 text-secondary">Name</label>
                         <input 
                             type="text" 
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
                             className="w-full bg-background border border-border p-3 sm:p-4 focus:border-accent focus:outline-none text-primary transition-colors rounded"
                             placeholder="Jane Doe"
+                            required
                         />
                     </div>
                     <div>
                         <label className="block text-sm font-bold mb-2 text-secondary">Email</label>
                         <input 
                             type="email" 
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
                             className="w-full bg-background border border-border p-3 sm:p-4 focus:border-accent focus:outline-none text-primary transition-colors rounded"
                             placeholder="jane@example.com"
+                            required
                         />
                     </div>
                      <div>
                         <label className="block text-sm font-bold mb-2 text-secondary">Message</label>
                         <textarea 
                             rows={5}
+                            value={message}
+                            onChange={(e) => setMessage(e.target.value)}
                             className="w-full bg-background border border-border p-3 sm:p-4 focus:border-accent focus:outline-none text-primary transition-colors rounded resize-none"
                             placeholder="Tell me about your project..."
+                            required
                         />
                     </div>
                     <AnimatedButton 
