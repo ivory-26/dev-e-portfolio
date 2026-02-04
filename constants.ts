@@ -3,6 +3,14 @@ import { Project, Experience, BlogPost, SkillCategory } from './types';
 
 export const PROJECTS: Project[] = [
   {
+    id: 6,
+    title: "AutoReport",
+    description: "Zero-click documentation for engineering students and developers. Listens to Git commits, analyzes diffs, and autonomously updates project reports using AI agents.",
+    tech: ["Next.js", "Tailwind", "Shadcn UI", "NextAuth", "Express", "MongoDB", "Groq"],
+    link: "https://github.com/ivory-26/autoreport",
+    featured: true
+  },
+  {
     id: 5,
     title: "Dev E-Portfolio (This Site)",
     description: "Personal developer portfolio built with React + Vite, TypeScript and Tailwind. Features live widgets (GitHub, Spotify) and a Gemini Live voice transcript demo. Deployed on Vercel.",

@@ -7,9 +7,9 @@ interface ProjectCardProps {
 }
 
 export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
-  const cardRef = useRef<HTMLDivElement>(null);
+  const cardRef = useRef<HTMLAnchorElement>(null);
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+  const handleMouseMove = (e: React.MouseEvent<HTMLAnchorElement>) => {
     if (!cardRef.current) return;
     const rect = cardRef.current.getBoundingClientRect();
     const x = e.clientX - rect.left;
@@ -20,8 +20,9 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
   };
 
   return (
-    <div 
+    <a 
       ref={cardRef}
+      href={project.link}
       onMouseMove={handleMouseMove}
       className="group relative bg-surface border border-border p-6 sm:p-8 hover:border-accent/50 transition-all duration-300 h-full flex flex-col justify-between overflow-hidden rounded-sm"
     >
@@ -41,12 +42,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
             <h3 className="text-xl font-bold text-primary group-hover:text-accent transition-colors">
             {project.title}
             </h3>
-            <a 
-                href={project.link}
-                className="text-secondary hover:text-primary transition-colors"
-            >
-                <ArrowUpRight size={20} />
-            </a>
+            <ArrowUpRight className="text-secondary group-hover:text-primary transition-colors" size={20} />
         </div>
         
         <p className="text-secondary leading-relaxed mb-6">
@@ -64,6 +60,6 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
           </span>
         ))}
       </div>
-    </div>
+    </a>
   );
 };
