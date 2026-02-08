@@ -18,6 +18,18 @@ const SPOTIFY_REFRESH_TOKEN = process.env.SPOTIFY_REFRESH_TOKEN;
 let cachedAccessToken: string | null = null;
 let tokenExpiresAt = 0; // epoch ms
 
+interface SpotifyTrackData {
+  playing: boolean;
+  title?: string;
+  artists?: string;
+  album?: string;
+  artwork?: string;
+  progressMs?: number;
+  durationMs?: number;
+  url?: string;
+  playedAt?: string;
+}
+
 async function getAccessToken(): Promise<string> {
   const now = Date.now();
   if (cachedAccessToken && now < tokenExpiresAt - 60_000) { // reuse if >60s remaining
@@ -54,6 +66,41 @@ async function getAccessToken(): Promise<string> {
   return cachedAccessToken;
 }
 
+async function getLastPlayed(accessToken: string): Promise<SpotifyTrackData | null> {
+  const recentResp = await fetch('https://api.spotify.com/v1/me/player/recently-played?limit=1', {
+    headers: {
+      'Authorization': `Bearer ${accessToken}`,
+      'Accept': 'application/json'
+    }
+  });
+
+  if (!recentResp.ok) {
+    return null;
+  }
+
+  const recentJson = await recentResp.json();
+  const recentItem = Array.isArray(recentJson?.items) ? recentJson.items[0] : null;
+  const track = recentItem?.track;
+
+  if (!track) {
+    return null;
+  }
+
+  const artists = Array.isArray(track?.artists)
+    ? track.artists.map((artist: any) => artist.name).join(', ')
+    : undefined;
+
+  return {
+    playing: false,
+    title: track?.name,
+    artists,
+    album: track?.album?.name,
+    artwork: track?.album?.images?.[0]?.url,
+    url: track?.external_urls?.spotify,
+    playedAt: recentItem?.played_at
+  };
+}
+
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   // CORS (adjust origin if you need to lock this down)
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -75,7 +122,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     });
 
     if (playingResp.status === 204 || playingResp.status === 202) {
-      return res.status(200).json({ playing: false });
+      const lastPlayed = await getLastPlayed(accessToken);
+      return res.status(200).json(lastPlayed ?? { playing: false });
     }
 
     if (!playingResp.ok) {
@@ -89,11 +137,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const isPlaying = json.is_playing && !!item;
 
     if (!isPlaying) {
-      return res.status(200).json({ playing: false });
+      const lastPlayed = await getLastPlayed(accessToken);
+      return res.status(200).json(lastPlayed ?? { playing: false });
     }
 
     const artists = Array.isArray(item?.artists) ? item.artists.map((a: any) => a.name).join(', ') : undefined;
-    const data = {
+    const data: SpotifyTrackData = {
       playing: true,
       title: item?.name,
       artists,

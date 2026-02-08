@@ -10,6 +10,7 @@ interface NowPlayingResponse {
   progressMs?: number;
   durationMs?: number;
   url?: string;
+  playedAt?: string;
   error?: string; // present when credentials missing or API fails gracefully
 }
 
@@ -55,8 +56,9 @@ export const SpotifyWidget: React.FC = () => {
     };
   }, []);
 
+  const hasTrack = Boolean(nowPlaying?.title);
   const playbackActive = Boolean(nowPlaying?.playing && nowPlaying?.title);
-  const progressPercent = nowPlaying?.progressMs && nowPlaying?.durationMs
+  const progressPercent = playbackActive && nowPlaying?.progressMs && nowPlaying?.durationMs
     ? Math.min(100, Math.max(0, (nowPlaying.progressMs / nowPlaying.durationMs) * 100))
     : 0;
 
@@ -95,7 +97,7 @@ export const SpotifyWidget: React.FC = () => {
     );
   }
 
-  if (!playbackActive) {
+  if (!hasTrack) {
     return (
       <div className={`${baseCardClasses} flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4`}>
         <div className="relative w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-gray-800 to-black rounded-md flex-shrink-0 flex items-center justify-center">
@@ -103,8 +105,8 @@ export const SpotifyWidget: React.FC = () => {
         </div>
         <div className="flex-1 space-y-0.5 sm:space-y-1">
           <div className="text-[10px] sm:text-xs font-bold text-[#1DB954] uppercase tracking-wider">Spotify</div>
-          <div className="text-primary font-semibold text-sm sm:text-base">Not playing right now</div>
-          <div className="text-[11px] sm:text-sm text-secondary">Queue something up to see it here.</div>
+          <div className="text-primary font-semibold text-sm sm:text-base">Nothing recently played</div>
+          <div className="text-[11px] sm:text-sm text-secondary">Play something on Spotify to see it here.</div>
         </div>
       </div>
     );
@@ -122,21 +124,26 @@ export const SpotifyWidget: React.FC = () => {
         ) : (
           <Music className="text-gray-600" size={24} />
         )}
-        <div
-          className="absolute bottom-0 left-0 h-1 bg-[#1DB954]"
-          style={{ width: `${progressPercent}%` }}
-        ></div>
+        {playbackActive && (
+          <div
+            className="absolute bottom-0 left-0 h-1 bg-[#1DB954]"
+            style={{ width: `${progressPercent}%` }}
+          ></div>
+        )}
       </div>
 
       <div className="flex-1 min-w-0 space-y-0.5 sm:space-y-1">
         <div className="flex items-center justify-between mb-0.5 sm:mb-1">
           <div className="text-[10px] sm:text-xs font-bold text-[#1DB954] uppercase tracking-wider flex items-center gap-1 sm:gap-2">
             <span>Spotify</span>
-            <div className="flex items-end gap-[2px] h-2 sm:h-3">
-              <span className="w-1 bg-[#1DB954] animate-[pulse_1s_ease-in-out_infinite] h-full"></span>
-              <span className="w-1 bg-[#1DB954] animate-[pulse_1.2s_ease-in-out_infinite] h-[60%]"></span>
-              <span className="w-1 bg-[#1DB954] animate-[pulse_0.8s_ease-in-out_infinite] h-[80%]"></span>
-            </div>
+            <span className="text-[9px] sm:text-[10px] text-secondary font-semibold">{playbackActive ? 'Now playing' : 'Last played'}</span>
+            {playbackActive && (
+              <div className="flex items-end gap-[2px] h-2 sm:h-3">
+                <span className="w-1 bg-[#1DB954] animate-[pulse_1s_ease-in-out_infinite] h-full"></span>
+                <span className="w-1 bg-[#1DB954] animate-[pulse_1.2s_ease-in-out_infinite] h-[60%]"></span>
+                <span className="w-1 bg-[#1DB954] animate-[pulse_0.8s_ease-in-out_infinite] h-[80%]"></span>
+              </div>
+            )}
           </div>
         </div>
         <div className="truncate font-bold text-primary text-sm sm:text-lg leading-snug sm:leading-normal">{nowPlaying?.title}</div>
